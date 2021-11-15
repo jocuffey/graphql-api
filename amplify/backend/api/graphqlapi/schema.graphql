@@ -1,20 +1,22 @@
-type Blog @model {
+type Recipe @model {
   id: ID!
   name: String!
-  posts: [Post] @connection(keyName: "byBlog", fields: ["id"])
+  ingredients: [Ingredient] @connection(keyName: "byRecipe", fields: ["id"])
+  instructions: [Instruction] @connection(keyName: "byRecipe", fields: ["id"])
+
 }
 
-type Post @model @key(name: "byBlog", fields: ["blogID"]) {
+type Ingredient @model @key(name: "byRecipe", fields: ["recipeID"]) {
   id: ID!
-  title: String!
-  blogID: ID!
-  blog: Blog @connection(fields: ["blogID"])
-  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+  name: String!
+  quantity: String!
+  recipeID: ID!
+  recipe: Recipe @connection(fields: ["recipeID"])
 }
 
-type Comment @model @key(name: "byPost", fields: ["postID", "content"]) {
+type Instruction @model @key(name: "byRecipe", fields: ["recipeID"]) {
   id: ID!
-  postID: ID!
-  post: Post @connection(fields: ["postID"])
-  content: String!
+  info: String!
+  recipeID: ID!
+  recipe: Recipe @connection(fields: ["recipeID"])
 }
